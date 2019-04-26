@@ -77,4 +77,4 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 #Ignore Assets
-Content/*
+Content/Assets/*
