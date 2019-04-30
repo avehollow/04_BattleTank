@@ -6,6 +6,17 @@
 #include "GameFramework/PlayerController.h"
 
 
+void ATankAIController::Tick(float FrameTime)
+{
+	Super::Tick(FrameTime);
+
+	ATank* controlled_tank = this->GetControlledTank();
+	ATank* player_tank     = this->GetPlayerTank();
+	
+	if(controlled_tank && player_tank)
+		controlled_tank->AimAt(player_tank->GetActorLocation());
+}
+
 ATank* ATankAIController::GetControlledTank()const
 {
 	return Cast<ATank>(GetPawn());

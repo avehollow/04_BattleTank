@@ -10,7 +10,7 @@ void ATankPlayerControler::Tick(float FrameTime)
 	FVector HitLocation;
 	if (this->GetSightRayHitLocation(OUT HitLocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Aim into %s"), *(HitLocation.ToString()));
+		this->GetControlledTank()->AimAt(HitLocation);
 	}
 
 }
@@ -37,9 +37,9 @@ bool ATankPlayerControler::GetSightRayHitLocation(FVector& OutHitLocation) const
 	if (this->GetLookDirection(ScreenLocation, OUT WorldLookDirection))
 	{
 		if (this->GetVectorHitLocation(WorldLookDirection, OUT OutHitLocation))
-			UE_LOG(LogTemp, Warning, TEXT("Aim into %s"), *(OutHitLocation.ToString()));
+			return true;
 	}
-	return true;
+	return false;
 }
 
 bool ATankPlayerControler::GetLookDirection(FVector2D ScreenLocation, FVector & WorldLookDirection) const
@@ -51,7 +51,6 @@ bool ATankPlayerControler::GetLookDirection(FVector2D ScreenLocation, FVector & 
 bool ATankPlayerControler::GetVectorHitLocation(FVector WorldDirection, FVector& HitLocation)const
 {
 	FHitResult HitResult;
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
 	
 	FVector StartTrace = PlayerCameraManager->GetCameraLocation();
 	FVector EndTrace   = StartTrace + (WorldDirection * LinetraceRage);
