@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../Public/TankAimingComponent.h"
+#include "../Public/TankBarrel.h"
+
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -16,30 +19,46 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimtAt(FVector AimLocation, float Speed)
 {
-	FVector BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("Fire with speed: %f"), Speed);
+	if (!Barrel) return;
+	FVector OutLaunchVelocity(0);
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	TArray<AActor*> ActorsToIgnore;
+
+	bool bHaveSolution = UGameplayStatics::SuggestProjectileVelocity(
+																this,
+																OUT OutLaunchVelocity,
+																StartLocation,
+																AimLocation,
+																Speed,
+																false,
+																0,
+																0,
+																ESuggestProjVelocityTraceOption::DoNotTrace,
+																FCollisionResponseParams::DefaultResponseParam,
+																ActorsToIgnore,
+																true
+															 );
+	if (bHaveSolution)
+	{
+		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		this->MoveBarrelTowards(AimDirection);
+	}
 }
 
-void UTankAimingComponent::SetBarrel(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrel(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	Super::BeginPlay();
+	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
+	FRotator AimRotator    = AimDirection.Rotation();
+	FRotator DeltaRotator  = AimRotator - BarrelRotator;
 
-	// ...
-	
-}
+	UE_LOG(LogTemp, Warning, TEXT("Aim at: %s"), *(DeltaRotator.ToString()));
 
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	Barrel->Elevate(5);
 }
 
