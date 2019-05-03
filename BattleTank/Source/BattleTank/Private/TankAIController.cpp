@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../Public/TankAIController.h"
+#include "../Public/Tank.h"
 
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
@@ -33,10 +34,6 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 
 	ATank* ControlledTank = this->GetControlledTank();
-	if (ControlledTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Add tank which name is : %s"), *(ControlledTank->GetName()));
-	}
 
 	ATank* player_tank = this->GetPlayerTank();
 	if (player_tank)

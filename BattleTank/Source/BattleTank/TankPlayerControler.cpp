@@ -2,6 +2,7 @@
 
 #include "TankPlayerControler.h"
 #include "Engine/World.h"
+#include "../Public/Tank.h"
 
 void ATankPlayerControler::Tick(float FrameTime)
 {
@@ -76,10 +77,5 @@ bool ATankPlayerControler::GetVectorHitLocation(FVector WorldDirection, FVector&
 void ATankPlayerControler::BeginPlay()
 {
 	Super::BeginPlay();
-
 	ATank* ControlledTank = this->GetControlledTank();
-	if (ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Add tank which name is : %s"), *(ControlledTank->GetName()));
-	}
 }
