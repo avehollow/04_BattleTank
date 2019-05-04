@@ -10,16 +10,16 @@
  * 
  */
 
-UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
+UCLASS(meta = (BlueprintSpawnableComponent))//, hidecategories = ("Collision"))
 class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 
 public:
-	void Elevate(float RelativeSpeed);
+	void Rotate(float RelativeSpeed);
 
 private:
-	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegreesPerSec = 5.0f;
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	 float MaxDegreesPerSec = 20.0f;
 	
 };
