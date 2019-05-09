@@ -7,9 +7,11 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
+class UTankMovement;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
+
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -40,6 +42,9 @@ public:
 
 protected:
 	UTankAimingComponent*         AimingComponent			 = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	 UTankMovement*				  MovementComponent			 = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)

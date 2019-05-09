@@ -4,6 +4,7 @@
 #include "../Public/TankBarrel.h"
 #include "../Public/TankTurret.h"
 #include "../Public/TankAimingComponent.h"
+#include "../Public/TankMovement.h"
 #include "../Public/Projectile.h"
 
 // Sets default values
@@ -12,8 +13,8 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	AimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	
+	AimingComponent   = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	MovementComponent = CreateDefaultSubobject<UTankMovement>(FName("Movement Component"));
 }
 
 void ATank::AimAt(FVector AimLocation)
@@ -23,14 +24,14 @@ void ATank::AimAt(FVector AimLocation)
 
 void ATank::SetBarrel(UTankBarrel * BarrelToSet)
 {
-	if (!BarrelToSet) return;
+	//if (!BarrelToSet) return;
 	AimingComponent->SetBarrel(BarrelToSet);
 	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurret(UTankTurret * TurretToSet)
 {
-	if (!TurretToSet) return;
+	//if (!TurretToSet) return;
 	AimingComponent->SetTurret(TurretToSet);
 }
 
