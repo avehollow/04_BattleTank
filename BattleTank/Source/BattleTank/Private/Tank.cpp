@@ -14,7 +14,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	AimingComponent   = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	MovementComponent = CreateDefaultSubobject<UTankMovement>(FName("Movement Component"));
 }
 
 void ATank::AimAt(FVector AimLocation)

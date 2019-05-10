@@ -43,8 +43,8 @@ public:
 protected:
 	UTankAimingComponent*         AimingComponent			 = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
-	 UTankMovement*				  MovementComponent			 = nullptr;
+	//UPROPERTY(BlueprintReadOnly)
+	// UTankMovement*				  MovementComponent			 = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)

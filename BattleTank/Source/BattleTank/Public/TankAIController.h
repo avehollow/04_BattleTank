@@ -19,4 +19,7 @@ public:
 	virtual void BeginPlay()override;
 	virtual void Tick(float FrameTime)override;
 
+private:
+	float AcceptanceRadius = 5000.0f;
+
 };
