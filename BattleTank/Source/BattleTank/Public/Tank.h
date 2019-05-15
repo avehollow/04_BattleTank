@@ -23,12 +23,9 @@ public:
 	ATank();
 	void AimAt(FVector AimLocation);
 	
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	 void SetBarrel(UTankBarrel* BarrelToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	 void InitializeAimingComponent(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	 void SetTurret(UTankTurret* TurretToSet);
-	
 	UFUNCTION(BlueprintCallable, Category = Mechanisms)
 	 void Fire();
 
@@ -41,10 +38,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	UTankAimingComponent*         AimingComponent			 = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	 UTankAimingComponent*         AimingComponent			 = nullptr;
 
-	//UPROPERTY(BlueprintReadOnly)
-	// UTankMovement*				  MovementComponent			 = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	 UTankMovement*				  MovementComponent			 = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
