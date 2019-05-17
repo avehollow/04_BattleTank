@@ -3,6 +3,7 @@
 #include "TankPlayerControler.h"
 #include "Engine/World.h"
 #include "../Public/Tank.h"
+#include "../Public/TankAimingComponent.h"
 
 void ATankPlayerControler::Tick(float FrameTime)
 {
@@ -75,5 +76,9 @@ bool ATankPlayerControler::GetVectorHitLocation(FVector WorldDirection, FVector&
 void ATankPlayerControler::BeginPlay()
 {
 	Super::BeginPlay();
-	ATank* ControlledTank = this->GetControlledTank();
+    UTankAimingComponent* aiming_component =  this->GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (aiming_component)
+	{
+		this->FindAimingComponent(aiming_component);
+	}
 }
