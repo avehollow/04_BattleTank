@@ -7,7 +7,6 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
-class UTankMovement;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
@@ -26,7 +25,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	 void InitializeAimingComponent(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Mechanisms)
+	UFUNCTION(BlueprintCallable, Category = Mechanism)
 	 void Fire();
 
 protected:
@@ -40,9 +39,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	 UTankAimingComponent*         AimingComponent			 = nullptr;
-
-	UPROPERTY(BlueprintReadOnly)
-	 UTankMovement*				  MovementComponent			 = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)

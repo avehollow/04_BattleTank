@@ -4,7 +4,6 @@
 #include "../Public/TankBarrel.h"
 #include "../Public/TankTurret.h"
 #include "../Public/TankAimingComponent.h"
-#include "../Public/TankMovement.h"
 #include "../Public/Projectile.h"
 
 // Sets default values
@@ -22,9 +21,6 @@ void ATank::AimAt(FVector AimLocation)
 
 void ATank::InitializeAimingComponent(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
-	if (!BarrelToSet || !TurretToSet || !AimingComponent) return;
-
-	AimingComponent->Initialize(BarrelToSet, TurretToSet);
 	Barrel = BarrelToSet;
 }
 
@@ -44,12 +40,13 @@ void ATank::Fire()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	//Wykrywa
+	AimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

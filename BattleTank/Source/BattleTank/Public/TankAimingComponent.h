@@ -29,7 +29,9 @@ public:
 	UTankAimingComponent();
 
 	void AimtAt(FVector WorldLocation, float Speed);
-	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	 void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 protected:
 	UPROPERTY(BlueprintReadOnly)

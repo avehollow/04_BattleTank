@@ -35,7 +35,7 @@ void UTankMovement::RequestDirectMove(const FVector & MoveVelocity, bool bForceM
 	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	FVector AIForward   = MoveVelocity.GetSafeNormal();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s MoveVelocity %s"), *(GetOwner()->GetName()), *(AIForward.ToString()));
+	//UE_LOG(LogTemp, Warning, TEXT("%s MoveVelocity %s"), *(GetOwner()->GetName()), *(AIForward.ToString()));
 
 	float dot = FVector::DotProduct(TankForward, AIForward);
 	this->IntendMoveFoward(dot);

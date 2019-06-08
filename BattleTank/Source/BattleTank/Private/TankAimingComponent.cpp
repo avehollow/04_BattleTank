@@ -50,7 +50,8 @@ void UTankAimingComponent::AimtAt(FVector AimLocation, float Speed)
 
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
-	if (!BarrelToSet || ! TurretToSet) return;
+	if (!BarrelToSet || !TurretToSet) return;
+	UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::Initialize"));
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }

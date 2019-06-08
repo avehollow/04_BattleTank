@@ -9,12 +9,7 @@ void ATankPlayerControler::Tick(float FrameTime)
 {
 	Super::Tick(FrameTime);
 
-	FVector HitLocation;
-	if (this->GetSightRayHitLocation(OUT HitLocation))
-	{
-		this->GetControlledTank()->AimAt(HitLocation);
-	}
-
+	this->AimTowardsCrosshair();
 }
 
 ATank* ATankPlayerControler::GetControlledTank()const
@@ -25,6 +20,12 @@ ATank* ATankPlayerControler::GetControlledTank()const
 void ATankPlayerControler::AimTowardsCrosshair()
 {
 	if (!this->GetControlledTank()) return;
+
+	FVector HitLocation;
+	if (this->GetSightRayHitLocation(OUT HitLocation))
+	{
+		this->GetControlledTank()->AimAt(HitLocation);
+	}
 }
 
 bool ATankPlayerControler::GetSightRayHitLocation(FVector& OutHitLocation) const
