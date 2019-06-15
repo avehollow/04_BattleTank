@@ -6,7 +6,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerControler.generated.h"
 
-class ATank;
 /**
  * 
  */
@@ -30,9 +29,6 @@ public:
 	 float LinetraceRage = 1000000.0f;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	 ATank* GetControlledTank()const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	 void FindAimingComponent(UTankAimingComponent* TankAimingComponent);
 

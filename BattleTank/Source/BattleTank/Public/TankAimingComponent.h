@@ -18,6 +18,7 @@ enum class EFiringStatus : uint8
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -28,19 +29,59 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void AimtAt(FVector WorldLocation, float Speed);
+	void AimAt(FVector AimLocation);
+	
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+	 void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	 void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
-	 EFiringStatus FiringStatus = EFiringStatus::Reloading; 
+		EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
+private:
+	virtual void BeginPlay() override;
+
+	// When body of this function is in cpp file i get error "Tick Component not found"
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override
+	{
+		if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSec) 
+		{
+			FiringStatus = EFiringStatus::Reloading;
+		}
+		else if(IsBarrelMoving())
+		{
+			FiringStatus = EFiringStatus::Aiming;
+		}
+		else
+		{
+			FiringStatus = EFiringStatus::Locked;
+		}
+		UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::Ticsfafs213afk"));
+	}
+
+
+
+	void MoveBarrelTowards(FVector AimDirection);
+	void MoveTurretTowards(FVector AimDirection);
+	bool IsBarrelMoving();
 
 private:
 	UTankBarrel* Barrel = nullptr; 
 	UTankTurret* Turret = nullptr;
 
-	void MoveBarrelTowards(FVector AimDirection);
-	void MoveTurretTowards(FVector AimDirection);
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	 float LunchSpeed = 8000.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	 TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	 float ReloadTimeInSec = 3.0f;
+
+	double LastFireTime = 0.0;
+
+	FVector AimDirection = FVector::ZeroVector;
 };

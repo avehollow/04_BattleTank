@@ -2,7 +2,6 @@
 
 #include "TankPlayerControler.h"
 #include "Engine/World.h"
-#include "../Public/Tank.h"
 #include "../Public/TankAimingComponent.h"
 
 void ATankPlayerControler::Tick(float FrameTime)
@@ -12,19 +11,15 @@ void ATankPlayerControler::Tick(float FrameTime)
 	this->AimTowardsCrosshair();
 }
 
-ATank* ATankPlayerControler::GetControlledTank()const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerControler::AimTowardsCrosshair()
 {
-	if (!this->GetControlledTank()) return;
+	UTankAimingComponent* aiming_component = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!aiming_component) return;
 
 	FVector HitLocation;
 	if (this->GetSightRayHitLocation(OUT HitLocation))
 	{
-		this->GetControlledTank()->AimAt(HitLocation);
+		aiming_component->AimAt(HitLocation);
 	}
 }
 
@@ -77,7 +72,7 @@ bool ATankPlayerControler::GetVectorHitLocation(FVector WorldDirection, FVector&
 void ATankPlayerControler::BeginPlay()
 {
 	Super::BeginPlay();
-    UTankAimingComponent* aiming_component =  this->GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+    UTankAimingComponent* aiming_component =  GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (aiming_component)
 	{
 		this->FindAimingComponent(aiming_component);
