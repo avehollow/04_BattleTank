@@ -56,9 +56,9 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 
 void UTankAimingComponent::Fire()
 {
-	if (Barrel && 
-	    ProjectileBlueprint &&
-		FiringStatus != EFiringStatus::Reloading)
+	if (!Barrel || !ProjectileBlueprint) return;
+
+	if (FiringStatus != EFiringStatus::Reloading)
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation("Projectile"), Barrel->GetSocketRotation("Projectile"));
 
