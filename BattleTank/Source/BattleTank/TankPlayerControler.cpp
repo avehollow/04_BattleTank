@@ -13,7 +13,7 @@ void ATankPlayerControler::Tick(float FrameTime)
 
 void ATankPlayerControler::AimTowardsCrosshair()
 {
-	if (!GetPawn())	 return;
+	if (!ensure(GetPawn()))	 return;
 
 
 	UTankAimingComponent* aiming_component = GetPawn()->FindComponentByClass<UTankAimingComponent>();
@@ -35,8 +35,7 @@ bool ATankPlayerControler::GetSightRayHitLocation(FVector& OutHitLocation) const
 	FVector WorldLookDirection;
 	if (this->GetLookDirection(ScreenLocation, OUT WorldLookDirection))
 	{
-		if (this->GetVectorHitLocation(WorldLookDirection, OUT OutHitLocation))
-			return true;
+		return this->GetVectorHitLocation(WorldLookDirection, OUT OutHitLocation);
 	}
 	return false;
 }

@@ -30,6 +30,7 @@ public:
 	UTankAimingComponent();
 
 	void AimAt(FVector AimLocation);
+	EFiringStatus GetFiringStatus() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	 void Fire();
@@ -37,9 +38,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	 void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+public:
+	UPROPERTY(BlueprintReadOnly, Category = Firing)
+	 int ammunition = 10;
+
 protected:
 	UPROPERTY(BlueprintReadOnly)
-		EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	 EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 private:
 	virtual void BeginPlay() override;
@@ -59,7 +64,6 @@ private:
 		{
 			FiringStatus = EFiringStatus::Locked;
 		}
-		UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::Ticsfafs213afk"));
 	}
 
 

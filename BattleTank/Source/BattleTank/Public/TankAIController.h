@@ -20,7 +20,8 @@ public:
 	virtual void BeginPlay()override;
 	virtual void Tick(float FrameTime)override;
 
-private:
-	float AcceptanceRadius = 5000.0f;
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	 float AcceptanceRadius = 5000.0f; //50m
 
 };

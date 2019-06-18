@@ -21,7 +21,10 @@ void ATankAIController::Tick(float FrameTime)
 		MoveToActor(player_tank, AcceptanceRadius);
 		aiming_component->AimAt(player_tank->GetActorLocation());
 
-		aiming_component->Fire();
+		if (aiming_component->GetFiringStatus() == EFiringStatus::Locked)
+		{
+			aiming_component->Fire();
+		}
 	}
 }
 

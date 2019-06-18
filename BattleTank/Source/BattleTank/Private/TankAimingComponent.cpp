@@ -8,7 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values for this component's properties
+// Sets default val	s for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -54,24 +54,31 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetFiringStatus() const
+{
+	return FiringStatus;
+}
+
 void UTankAimingComponent::Fire()
 {
 	if (!Barrel || !ProjectileBlueprint) return;
 
-	if (FiringStatus != EFiringStatus::Reloading)
+	if (FiringStatus != EFiringStatus::Reloading && ammunition > 0)
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation("Projectile"), Barrel->GetSocketRotation("Projectile"));
 
 		Projectile->LaunchProjectile(LunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 		FiringStatus = EFiringStatus::Reloading;
+
+		ammunition--;
+		ammunition < 0 ? ammunition = 0 : ammunition;
 	}
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
 	if (!BarrelToSet || !TurretToSet) return;
-	UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::Initialize"));
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
@@ -91,7 +98,15 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 	FRotator AimRotator    = AimDirection.Rotation();
 	FRotator DeltaRotator  = AimRotator - BarrelRotator;
 
-	Turret->Rotate(DeltaRotator.Yaw);
+	//UE_LOG(LogTemp, Warning, TEXT("Delta Rotator: %f"), DeltaRotator.Yaw); // Delta Rotator range [-360, 360]
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
