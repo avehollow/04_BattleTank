@@ -40,7 +40,7 @@ public:
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category = Firing)
-	 int ammunition = 25;
+	 int32 ammunition = 25;
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
