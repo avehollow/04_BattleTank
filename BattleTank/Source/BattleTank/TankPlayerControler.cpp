@@ -2,6 +2,7 @@
 
 #include "TankPlayerControler.h"
 #include "Engine/World.h"
+#include "../Public/Tank.h"
 #include "../Public/TankAimingComponent.h"
 
 void ATankPlayerControler::Tick(float FrameTime)
@@ -9,6 +10,21 @@ void ATankPlayerControler::Tick(float FrameTime)
 	Super::Tick(FrameTime);
 
 	this->AimTowardsCrosshair();
+}
+
+void ATankPlayerControler::SetPawn(APawn * Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	ATank* tank = Cast<ATank>(Pawn);
+	if (!ensure(tank)) return;
+
+	tank->OnDeath.AddUniqueDynamic(this, &ATankPlayerControler::OnTankDeath);
+}
+
+void ATankPlayerControler::OnTankDeath()
+{
+	StartSpectatingOnly();
 }
 
 void ATankPlayerControler::AimTowardsCrosshair()

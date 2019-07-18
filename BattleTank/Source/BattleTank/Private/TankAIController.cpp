@@ -2,6 +2,7 @@
 
 #include "../Public/TankAIController.h"
 #include "../Public/TankAimingComponent.h"
+#include "../Public/Tank.h"
 
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
@@ -26,6 +27,23 @@ void ATankAIController::Tick(float FrameTime)
 			aiming_component->Fire();
 		}
 	}
+}
+
+void ATankAIController::SetPawn(APawn * Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	ATank* tank = Cast<ATank>(Pawn);
+	if (!ensure(tank)) return;
+
+	tank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+
+}
+
+void ATankAIController::OnTankDeath()
+{
+	if (!GetPawn())return;
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
 
 void ATankAIController::BeginPlay()

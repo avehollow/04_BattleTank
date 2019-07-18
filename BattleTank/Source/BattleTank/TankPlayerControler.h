@@ -17,6 +17,10 @@ class BATTLETANK_API ATankPlayerControler : public APlayerController
 public:
 	virtual void BeginPlay()override;
 	virtual void Tick(float FrameTime)override;
+	virtual void SetPawn(APawn* Pawn)override;
+
+	UFUNCTION()
+	 void OnTankDeath();
 
 public:
 	UPROPERTY(EditAnywhere)
